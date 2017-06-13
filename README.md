@@ -8,6 +8,7 @@ The control accepts now graduations with text and sub graduations.
 The text of the graduations can be drawn inside or outside the knob.
 
 The "start angle" and the "end angle" of the graduations are adjustable:
+`< 
 // "start angle" and "end angle" possible values:
 // 90 = bottom (minimum value for "start angle")
 // 180 = left
@@ -16,6 +17,7 @@ The "start angle" and the "end angle" of the graduations are adjustable:
 // 450 = bottom again (maximum value for "end angle")
 // So the couple (90, 450) will give an entire circle 
 // and the couple (180, 360) will give half a circle.
+>`
 
 The MouseWheel event is now managed.
 
@@ -26,7 +28,7 @@ If the control that has the focus doesn't handle it, then Windows passes it on t
 Repeatedly, until it finds a parent window that wants to handle it.
 HandledMouseEventArgs lets you stop the bubbling.
 
-
+'''
 protected override void OnMouseWheel(MouseEventArgs e)
 {           
     base.OnMouseWheel(e);
@@ -41,6 +43,7 @@ protected override void OnMouseWheel(MouseEventArgs e)
         ((HandledMouseEventArgs)e).Handled = true;
     }
 }
+'''
 
 Properties available:
 
