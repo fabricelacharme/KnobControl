@@ -6,17 +6,17 @@ I needed a knob control in C#, with full functionalities for my personal project
 
 The control accepts now graduations with text and sub graduations.
 The text of the graduations can be drawn inside or outside the knob.
-The "start angle" and the "end angle" of the graduations are adjustable.
-// "start angle" and "end angle" possible values:
 
+The "start angle" and the "end angle" of the graduations are adjustable:
+// "start angle" and "end angle" possible values:
 // 90 = bottom (minimum value for "start angle")
 // 180 = left
 // 270 = top
 // 360 = right
 // 450 = bottom again (maximum value for "end angle")
-
 // So the couple (90, 450) will give an entire circle 
 // and the couple (180, 360) will give half a circle.
+
 The MouseWheel event is now managed.
 
 
@@ -30,7 +30,6 @@ HandledMouseEventArgs lets you stop the bubbling.
 protected override void OnMouseWheel(MouseEventArgs e)
 {           
     base.OnMouseWheel(e);
-
     if ( isFocused && isKnobRotating && 
     Utility.isPointinRectangle(new Point(e.X, e.Y), rKnob))
     {                
@@ -63,13 +62,12 @@ _endAngle = Sets the end angle to display graduations (default 405, max 450)
 _mouseWheelBarPartitions = Sets how many parts are bar divided when using mouse wheel
 The single event managed by this control is the ValueChanged event.
 
-The single event managed by this control is the ValueChanged event.
-
-Hide   Copy Code
+The single event managed by this control is the ValueChanged event:
 private void knobControl1_ValueChanged(object Sender)
 {
      label1.Text = knobControl1.Value.ToString();
 }
+
 This project was developed with Visual Studio version 2017.
 
 The code is not difficult to understand and to modify to suit your needs. 
