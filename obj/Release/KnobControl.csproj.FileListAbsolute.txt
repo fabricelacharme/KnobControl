@@ -1,0 +1,11 @@
+C:\Users\a453868\Documents\Visual Studio 2017\Projects\knobControl\bin\Release\KnobControl.exe
+C:\Users\a453868\Documents\Visual Studio 2017\Projects\knobControl\obj\Release\knobControl.Form1.resources
+C:\Users\a453868\Documents\Visual Studio 2017\Projects\knobControl\obj\Release\KnobControl.KnobControl.resources
+C:\Users\a453868\Documents\Visual Studio 2017\Projects\knobControl\obj\Release\KnobControl.csproj.GenerateResource.Cache
+C:\Users\a453868\Documents\Visual Studio 2017\Projects\knobControl\obj\Release\KnobControl.exe
+C:\Users\a453868\Documents\Visual Studio 2017\Projects\knobControl\obj\Release\KnobControl.csprojResolveAssemblyReference.cache
+C:\Users\a453868\Documents\Visual Studio 2017\Projects\KnobControlProject\knobControl\bin\Release\KnobControl.dll
+C:\Users\a453868\Documents\Visual Studio 2017\Projects\KnobControlProject\knobControl\obj\Release\KnobControl.csprojResolveAssemblyReference.cache
+C:\Users\a453868\Documents\Visual Studio 2017\Projects\KnobControlProject\knobControl\obj\Release\KnobControl.KnobControl.resources
+C:\Users\a453868\Documents\Visual Studio 2017\Projects\KnobControlProject\knobControl\obj\Release\KnobControl.csproj.GenerateResource.Cache
+C:\Users\a453868\Documents\Visual Studio 2017\Projects\KnobControlProject\knobControl\obj\Release\KnobControl.dll
