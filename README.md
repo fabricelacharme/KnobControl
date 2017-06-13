@@ -63,6 +63,7 @@ _mouseWheelBarPartitions = Sets how many parts are bar divided when using mouse 
 The single event managed by this control is the ValueChanged event.
 
 The single event managed by this control is the ValueChanged event:
+
 private void knobControl1_ValueChanged(object Sender)
 {
      label1.Text = knobControl1.Value.ToString();
