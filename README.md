@@ -75,3 +75,6 @@ This project was developed with Visual Studio version 2017.
 
 The code is not difficult to understand and to modify to suit your needs. 
 The main difficulty is that you need some Math skills to understand how all is displayed (not so much in fact: sinus and cosinus level required :-)).
+
+#Author
+Fabrice Lacharme
