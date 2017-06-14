@@ -1,5 +1,6 @@
 # KnobControl
-Yest another KnobControl in C#
+Yet another KnobControl in C#
+
 This code was originally written by Jigar Desai a long time ago as a proof of concept. (The original article for this control can be found on C-SharpCorner.com).
 
 I needed a knob control in C#, with full functionalities for my personal projects and decided to improve it by making its output type a class library and adding as many properties as possible to be a full and flexible control.
