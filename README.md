@@ -1,5 +1,5 @@
-# KnobControl
-Yet another KnobControl in C#
+# Knob Control
+Yet another Knob Control in C#
 
 ![GitHub Logo](/gifs/knobcontrol.jpg)
 
