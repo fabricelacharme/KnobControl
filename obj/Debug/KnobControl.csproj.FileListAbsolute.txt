@@ -13,3 +13,11 @@ C:\Users\a453868\Documents\Visual Studio 2017\Projects\KnobControlProject\knobCo
 C:\Users\a453868\Documents\Visual Studio 2017\Projects\KnobControlProject\knobControl\obj\Debug\KnobControl.csproj.GenerateResource.Cache
 C:\Users\a453868\Documents\Visual Studio 2017\Projects\KnobControlProject\knobControl\obj\Debug\KnobControl.dll
 C:\Users\a453868\Documents\Visual Studio 2017\Projects\KnobControlProject\knobControl\obj\Debug\KnobControl.pdb
+C:\Users\a453868\Documents\Visual Studio 2017\Projects\Buttons\KnobControlProject\knobControl\bin\Debug\KnobControl.dll
+C:\Users\a453868\Documents\Visual Studio 2017\Projects\Buttons\KnobControlProject\knobControl\bin\Debug\KnobControl.pdb
+C:\Users\a453868\Documents\Visual Studio 2017\Projects\Buttons\KnobControlProject\knobControl\obj\Debug\KnobControl.KnobControl.resources
+C:\Users\a453868\Documents\Visual Studio 2017\Projects\Buttons\KnobControlProject\knobControl\obj\Debug\KnobControl.csproj.GenerateResource.cache
+C:\Users\a453868\Documents\Visual Studio 2017\Projects\Buttons\KnobControlProject\knobControl\obj\Debug\KnobControl.csproj.CoreCompileInputs.cache
+C:\Users\a453868\Documents\Visual Studio 2017\Projects\Buttons\KnobControlProject\knobControl\obj\Debug\KnobControl.dll
+C:\Users\a453868\Documents\Visual Studio 2017\Projects\Buttons\KnobControlProject\knobControl\obj\Debug\KnobControl.pdb
+C:\Users\a453868\Documents\Visual Studio 2017\Projects\Buttons\KnobControlProject\knobControl\obj\Debug\KnobControl.csprojAssemblyReference.cache

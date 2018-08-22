@@ -11,7 +11,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("")]
-[assembly: AssemblyCopyright("Fabrice Lacharme 2017")]
+[assembly: AssemblyCopyright("Fabrice Lacharme 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]		
 

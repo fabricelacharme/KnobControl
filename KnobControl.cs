@@ -45,7 +45,24 @@ using System.Windows.Forms;
 namespace KnobControl
 {
 
-    // A delegate type for hooking up ValueChanged notifications. 
+    /* Original code from Jigar Desai on C-SharpCorner.com
+    * see https://www.c-sharpcorner.com/article/knob-control-using-windows-forms-and-gdi/
+    * KnobControl is a knob control written in C#  
+    * 
+    * CodeProject: https://www.codeproject.com/Tips/1187460/Csharp-Knob-Control-using-Windows-Forms
+    * Github: https://github.com/fabricelacharme/KnobControl
+    * 
+    * 22/08/18 - version 1.0.O.1
+    * 
+    * Fixed: erroneous display in case of minimum value <> 0 (negative or positive)
+    * Modified: DrawColorSlider, OnMouseMove
+    * 
+    * Added: Font selection
+    * 
+    */
+
+
+	// A delegate type for hooking up ValueChanged notifications. 
     public delegate void ValueChangedEventHandler(object Sender);
 
     /// <summary>
@@ -80,6 +97,7 @@ namespace KnobControl
         private int _scaleDivisions;
         private int _scaleSubDivisions;
         private Color _scaleColor;
+        private Font _scaleFont;
         private Color _knobBackColor = Color.LightGray;
         private bool _drawDivInside;
 
@@ -90,8 +108,8 @@ namespace KnobControl
         private float _endAngle = 405;
         private float deltaAngle;
         private int _mouseWheelBarPartitions = 10;
-        
 
+        
         private float drawRatio;
 
         // Color of the pointer
@@ -140,6 +158,21 @@ namespace KnobControl
 
 
         #region (* public Properties *)
+
+        // <summary>
+        /// Font of graduations
+        /// 
+        [Description("Font of graduations")]
+        [Category("KnobControl")]
+        public Font ScaleFont
+        {
+            get { return _scaleFont; }
+            set
+            {
+                _scaleFont = value;
+                Invalidate();
+            }
+        }
 
         /// <summary>
         /// Start angle to display graduations
@@ -420,12 +453,14 @@ namespace KnobControl
 			get{return _Value;}
 			set
 			{
-				
-				_Value = value;
-				// need to redraw 
-				Invalidate();
-				// call delegate  
-				OnValueChanged(this); 
+                if (value >= _minimum && value <= _maximum)
+                {
+                    _Value = value;
+                    // need to redraw 
+                    Invalidate();
+                    // call delegate  
+                    OnValueChanged(this);
+                }
 			}
 		}
 
@@ -456,6 +491,7 @@ namespace KnobControl
 			InitializeComponent();
 
             knobFont = new Font(this.Font.FontFamily, this.Font.Size);
+            _scaleFont = new Font(this.Font.FontFamily, this.Font.Size);
 
             // Properties initialisation
 
@@ -640,15 +676,6 @@ namespace KnobControl
         }
 
      
-        /*
-        protected override void OnEnter(EventArgs e)
-		{
-			
-            Invalidate();
-
-			base.OnEnter(new EventArgs());
-		}
-        */
 
         /// <summary>
         /// Leave event: disallow knob rotation
@@ -826,12 +853,21 @@ namespace KnobControl
 
                     Gr.DrawLine(penL, ptStart, ptEnd);
 
-
+                    
                     //Draw graduations Strings                    
                     float fSize = (float)(6F * drawRatio);
                     if (fSize < 6)
-                        fSize = 6;                   
+                        fSize = 6;
+
                     Font font = new Font(this.Font.FontFamily, fSize);
+                    try
+                    {                        
+                        font = new Font(_scaleFont.FontFamily, fSize);
+                    }
+                    catch (Exception ex)
+                    {                        
+                        Console.Write(ex.Message);
+                    }
 
                     double val = Math.Round(rulerValue);
                     String str = String.Format("{0,0:D}", (int)val);
@@ -927,7 +963,8 @@ namespace KnobControl
                 float fSize = (float)(6F * drawRatio);
                 if (fSize < 6)
                     fSize = 6;
-                knobFont = new Font(this.Font.FontFamily, fSize);
+                //knobFont = new Font(this.Font.FontFamily, fSize);
+                knobFont = new Font(_scaleFont.FontFamily, fSize);
                 double val = _maximum;
                 String str = String.Format("{0,0:D}", (int)val);
 
@@ -1017,9 +1054,12 @@ namespace KnobControl
             
             float radius = (float)(rKnob.Width / 2);
 
-            float degree = deltaAngle * this.Value/(_maximum - _minimum);
-            degree = Utility.GetRadian(degree + _startAngle);
-            
+            // FAB: 21/08/18
+            //float degree = deltaAngle * this.Value/(_maximum - _minimum);
+            float degree = deltaAngle * (this.Value - _minimum) / (_maximum - _minimum);
+
+            degree = Utility.GetRadian(degree + _startAngle);           
+
             Point Pos = new Point(0,0);
 
             Pos.X = (int)(cx + (radius - (11)* drawRatio) * Math.Cos(degree));
@@ -1043,7 +1083,10 @@ namespace KnobControl
            
             float radius = (float)(rKnob.Width / 2);
 
-            float degree = deltaAngle * this.Value / (_maximum - _minimum);
+            // FAB: 21/08/18
+            //float degree = deltaAngle * this.Value / (_maximum - _minimum);
+            float degree = deltaAngle * (this.Value - _minimum) / (_maximum - _minimum);
+
             degree = Utility.GetRadian(degree + _startAngle);
 
             Point Pos = new Point(0, 0);
