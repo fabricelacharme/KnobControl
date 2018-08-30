@@ -53,16 +53,20 @@ namespace KnobControl
     * Github: https://github.com/fabricelacharme/KnobControl
     * 
     * 22/08/18 - version 1.0.O.1
-    * 
     * Fixed: erroneous display in case of minimum value <> 0 (negative or positive)
     * Modified: DrawColorSlider, OnMouseMove
     * 
     * Added: Font selection
     * 
+    * 
+    * 25/08/18 - version 1.0.0.2
+    * Fixed: mouse click event: pointer button is not displayed correctly when the minimum is set to a non zero value.
+    * Modified: getValueFromPosition
+    * 
     */
 
 
-	// A delegate type for hooking up ValueChanged notifications. 
+    // A delegate type for hooking up ValueChanged notifications. 
     public delegate void ValueChangedEventHandler(object Sender);
 
     /// <summary>
@@ -306,8 +310,11 @@ namespace KnobControl
             get { return _scaleDivisions; }
             set
             {
-                _scaleDivisions = value;
-                Invalidate();
+                if (value > 1)
+                {
+                    _scaleDivisions = value;
+                    Invalidate();
+                }
                 
             }
         }
@@ -1129,9 +1136,11 @@ namespace KnobControl
 
                 degree = (degree) * (float)(180 / Math.PI) + 360 - _startAngle;              				
 			}
-            
+
             // round to the nearest value (when you click just before or after a graduation!)
-            v = (int)Math.Round(degree * (_maximum - _minimum) / deltaAngle);
+            // FAB: 25/08/18
+            // v = (int)Math.Round(degree * (_maximum - _minimum) / deltaAngle);
+            v = _minimum + (int)Math.Round(degree * (_maximum - _minimum) / deltaAngle);
 
 
             if (v > _maximum) v = _maximum;
