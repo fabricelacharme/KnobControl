@@ -192,6 +192,7 @@ namespace KnobControl
             {
                 _scaleFont = value;
                 // Redraw
+                SetDimensions();
                 Invalidate();
             }
         }
@@ -845,29 +846,36 @@ namespace KnobControl
                     // Draw a circle
                     int w = 0;
                     int h = 0;
-                    int l = 0;
+                    int l = 0;                   
 
-                    // Size of pointer
+                    double val = _maximum;
+                    String str = String.Format("{0,0:D}", (int)val);
+
+                    float fSize;
+                    SizeF strsize;
                     if (_scaleFontAutoSize)
                     {
-                        w = rKnob.Width / 10;
-                        if (w < 7)
-                            w = 7;
-                        // radius of small circle
-                        l = (int)(radius - (11) * drawRatio);
+                        // Use font family = _scaleFont, but size = automatic
+                        fSize = (float)(6F * drawRatio);
+                        if (fSize < 6)
+                            fSize = 6;
+                        strsize = Gr.MeasureString(str, new Font(_scaleFont.FontFamily, fSize));
                     }
                     else
-                    {                        
-                        double val = _maximum;
-                        String str = String.Format("{0,0:D}", (int)val);
-                        float fSize = _scaleFont.Size;                        
-                        SizeF strsize = Gr.MeasureString(str, _scaleFont);
-                        int strw = (int)strsize.Width;
-                        int strh = (int)strsize.Height;
-                        w = Math.Max(strw, strh);
-                        // radius of small circle
-                        l = (int)radius - w / 2;
+                    {
+                        // Use font family = _scaleFont, but size = fixed
+                        //fSize = _scaleFont.Size;
+                        strsize = Gr.MeasureString(str, _scaleFont);
                     }
+
+                    //SizeF strsize = Gr.MeasureString(str, _scaleFont);
+
+                    int strw = (int)strsize.Width;
+                    int strh = (int)strsize.Height;
+                    w = Math.Max(strw, strh);
+                    // radius of small circle
+                    l = (int)radius - w / 2;
+
                     h = w;
 
                     Point Arrow = this.GetKnobPosition(l);
@@ -913,7 +921,8 @@ namespace KnobControl
             float radius = (float)(rKnob.Width / 2 );
             float rulerValue = (float)_minimum;
 
-            
+            Font font;
+
             Pen penL = new Pen(_scaleColor, (2 * drawRatio));
             Pen penS = new Pen(_scaleColor, (1 * drawRatio));
 
@@ -925,14 +934,30 @@ namespace KnobControl
 
             if (_showLargeScale)
             {
-                Font font = this.Font;
+                
                 double val = _maximum;
                 String str = String.Format("{0,0:D}", (int)val);
-                float fSize = _scaleFont.Size;
-                SizeF strsize = Gr.MeasureString(str, _scaleFont);
+                float fSize;
+                SizeF strsize;
+
+                if (_scaleFontAutoSize)
+                {
+                    fSize = (float)(6F * drawRatio);
+                    if (fSize < 6)
+                        fSize = 6;
+                }
+                else
+                {
+                    fSize = _scaleFont.Size;
+                }
+
+                font = new Font(_scaleFont.FontFamily, fSize);
+                strsize = Gr.MeasureString(str, font);
+
                 int strw = (int)strsize.Width;
                 int strh = (int)strsize.Height;
                 int wmax = Math.Max(strw, strh);
+
                 float l = 0;
 
                 for (; n < _scaleDivisions; n++)
@@ -948,35 +973,21 @@ namespace KnobControl
 
 
                     //Draw graduation values                                                                                
-                    // If autosize
-                    if (_scaleFontAutoSize)
-                    {
-                        fSize = (float)(6F * drawRatio);
-                        if (fSize < 6)
-                            fSize = 6;
-                    }
-
-                    try
-                    {
-                        font = new Font(_scaleFont.FontFamily, fSize);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.Write(ex.Message);
-                    }                  
-
                     val = Math.Round(rulerValue);
                     str = String.Format("{0,0:D}", (int)val);
-                    SizeF size = Gr.MeasureString(str, font);
+                    //SizeF size;
 
+                    // If autosize
+                    if (_scaleFontAutoSize)                    
+                        strsize = Gr.MeasureString(str, new Font(_scaleFont.FontFamily, fSize));                    
+                    else                    
+                        strsize = Gr.MeasureString(str, new Font(_scaleFont.FontFamily, _scaleFont.Size));                    
+                                               
                     if (_drawDivInside)
                     {
-                        // graduations values inside the knob
-                        if (_scaleFontAutoSize)                        
-                            l = radius - (11 * drawRatio);                        
-                        else                        
-                            l = (int)radius - wmax / 2;                        
-                        
+                        // graduations values inside the knob                        
+                        l = (int)radius - wmax / 2;
+
                         tx = (float)(cx + l * Math.Cos(currentAngle));
                         ty = (float)(cy + l * Math.Sin(currentAngle));
 
@@ -984,23 +995,22 @@ namespace KnobControl
                     else
                     {
                         // graduation values outside the knob                       
-                        tx = (float)(cx + (Width / 2 - size.Width / 2) * Math.Cos(currentAngle));
-                        ty = (float)(cy + (Width / 2 - size.Height / 2) * Math.Sin(currentAngle));
+                        tx = (float)(cx + (Width / 2 - strsize.Width / 2) * Math.Cos(currentAngle));
+                        ty = (float)(cy + (Width / 2 - strsize.Height / 2) * Math.Sin(currentAngle));
                     }
 
-                    Gr.DrawString(str,
+                    Gr.DrawString(str,                                                                       
                                     font,
                                     br,
-                                    tx - (float)(size.Width * 0.5),
-                                    ty - (float)(size.Height * 0.5));
+                                    tx - (float)(strsize.Width * 0.5),
+                                    ty - (float)(strsize.Height * 0.5));
 
                  
 
                     rulerValue += (float)((_maximum - _minimum) / (_scaleDivisions - 1));
 
                     if (n == _scaleDivisions - 1)
-                    {
-                        font.Dispose();
+                    {                        
                         break;
                     }
 
@@ -1029,10 +1039,9 @@ namespace KnobControl
                             }
                         }
                     }
-                    #endregion
-
-                    font.Dispose();
+                    #endregion                    
                 }
+                font.Dispose();
             }
 
             return true;
@@ -1045,6 +1054,7 @@ namespace KnobControl
 		{                      
             int size = this.Width;
             Height = size;
+            Font font;
 
             // Rectangle
             float x, y, w, h;
@@ -1054,7 +1064,8 @@ namespace KnobControl
             h = Size.Height;
 
             // Calculate ratio
-            drawRatio = (Math.Min(w, h)) / 200;
+            //drawRatio = (Math.Min(w, h)) / 200;
+            drawRatio = (Math.Min(w, h)) / 150;
             if (drawRatio == 0.0)
                 drawRatio = 1;
 
@@ -1071,15 +1082,22 @@ namespace KnobControl
                     fSize = (float)(6F * drawRatio);
                     if (fSize < 6)
                         fSize = 6;
+                    font = new Font(_scaleFont.FontFamily, fSize);
                 }
-                
-                knobFont = new Font(_scaleFont.FontFamily, fSize);
-                SizeF strsize = Gr.MeasureString(str, knobFont);
+                else
+                {
+                    fSize = _scaleFont.Size;
+                    font = new Font(_scaleFont.FontFamily, _scaleFont.Size);
+                }
+                                
+                SizeF strsize = Gr.MeasureString(str, font);
 
                 // Graduations outside
+                
                 if (!_drawDivInside)
                 {
-                    int strw = (int)strsize.Width + 4;
+                    // remove 2 * size of text
+                    int strw = (int)strsize.Width;
                     int strh = (int)strsize.Height;
 
                     int max = Math.Max(strw, strh);
@@ -1089,11 +1107,12 @@ namespace KnobControl
                 }
                 else
                 {
-                    // Graduations inside
+                    // Graduations inside : remove only 2*4 pixels
                     x = 8;
                     y = 8;
                     w = Width - 2 * x;
                 }
+                
 
                 if (w <= 0)
                     w = 1;
@@ -1245,9 +1264,6 @@ namespace KnobControl
             else
             {
                 // Internal (from)
-                //Pos.X = (int)(cx + (radius - drawRatio * 10) * Math.Cos(degree));
-                //Pos.Y = (int)(cy + (radius - drawRatio * 10) * Math.Sin(degree));
-
                 Pos.X = (int)(cx + (radius - drawRatio * 10 - l) * Math.Cos(degree));
                 Pos.Y = (int)(cy + (radius - drawRatio * 10 - l) * Math.Sin(degree));
 
@@ -1255,9 +1271,6 @@ namespace KnobControl
                 pret[0] = new Point(Pos.X, Pos.Y);
 
                 // External (to)
-                //Pos.X = (int)(cx + (radius - drawRatio * 10 - l) * Math.Cos(degree));
-                //Pos.Y = (int)(cy + (radius - drawRatio * 10 - l) * Math.Sin(degree));
-
                 Pos.X = (int)(cx + (radius - 4) * Math.Cos(degree));
                 Pos.Y = (int)(cy + (radius - 4) * Math.Sin(degree));
 
