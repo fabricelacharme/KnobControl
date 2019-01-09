@@ -847,6 +847,7 @@ namespace KnobControl
                     int h = 0;
                     int l = 0;
 
+                    /*
                     // Size of pointer
                     if (_scaleFontAutoSize)
                     {
@@ -868,6 +869,18 @@ namespace KnobControl
                         // radius of small circle
                         l = (int)radius - w / 2;
                     }
+                    */
+                    double val = _maximum;
+                    String str = String.Format("{0,0:D}", (int)val);
+                    float fSize = _scaleFont.Size;
+                    SizeF strsize = Gr.MeasureString(str, _scaleFont);
+                    int strw = (int)strsize.Width;
+                    int strh = (int)strsize.Height;
+                    w = Math.Max(strw, strh);
+                    // radius of small circle
+                    l = (int)radius - w / 2;
+
+
                     h = w;
 
                     Point Arrow = this.GetKnobPosition(l);
