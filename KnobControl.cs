@@ -83,16 +83,7 @@ namespace KnobControl
         /// <summary> 
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.Container components = null;
-
-
-        // To be deleted - Only for compatibility
-        public enum knobPointerStyle
-        {
-            circle,
-            line,
-        }
-
+        private System.ComponentModel.Container components = null;       
 
         /// <summary>
         /// Styles of pointer button
