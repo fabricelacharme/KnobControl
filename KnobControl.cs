@@ -115,12 +115,12 @@ namespace KnobControl
 
         private int _scaleDivisions;
         private int _scaleSubDivisions;
-        private Color _scaleColor;
+        
 
         private Font _scaleFont;
         private bool _scaleFontAutoSize = true;
 
-        private Color _knobBackColor = Color.LightGray;
+        
         private bool _drawDivInside;
 
         private bool _showSmallScale = false;
@@ -137,7 +137,8 @@ namespace KnobControl
 
         // Color of the pointer
         private Color _PointerColor = Color.SlateBlue;
-
+        private Color _knobBackColor = Color.LightGray;
+        private Color _scaleColor = Color.Black;
 
         private int _Value = 0;
         private bool isFocused = false;
@@ -146,7 +147,7 @@ namespace KnobControl
         private Point pKnob;
         private Pen DottedPen;
 
-        Brush bKnob;
+        Brush brushKnob;
         Brush brushKnobPointer;
 
         private Font knobFont;
@@ -181,9 +182,9 @@ namespace KnobControl
 
         #region (* public Properties *)
 
-        // <summary>
+        /// <summary>
         /// Font of graduations
-        /// 
+        /// </summary>
         [Description("Font of graduations")]
         [Category("KnobControl")]
         public Font ScaleFont
@@ -343,7 +344,9 @@ namespace KnobControl
             set
             {
                 _knobBackColor = value;
+                
                 SetDimensions();
+                
                 // Redraw
                 Invalidate();
             }
@@ -365,7 +368,6 @@ namespace KnobControl
                     // Redraw
                     Invalidate();
                 }
-
             }
         }
 
@@ -449,6 +451,7 @@ namespace KnobControl
                 Invalidate();
             }
         }
+        
         /// <summary>
         /// Maximum value for knob control
         /// </summary>
@@ -491,6 +494,7 @@ namespace KnobControl
                 Invalidate();
             }
         }
+        
         /// <summary>
         /// value set for small change.
         /// </summary>
@@ -539,8 +543,9 @@ namespace KnobControl
             set
             {
                 _PointerColor = value;
-                brushKnobPointer = new LinearGradientBrush(
-                rKnob, Utility.GetLightColor(_PointerColor, 55), Utility.GetDarkColor(_PointerColor, 55), LinearGradientMode.ForwardDiagonal);
+                
+                SetDimensions();
+
                 // Redraw
                 Invalidate();
             }
@@ -563,6 +568,7 @@ namespace KnobControl
 
             knobFont = new Font(this.Font.FontFamily, this.Font.Size);
             _scaleFont = new Font(this.Font.FontFamily, this.Font.Size);
+
 
             // Properties initialisation
 
@@ -606,7 +612,7 @@ namespace KnobControl
             // Set background color of Image...            
             gOffScreen.Clear(this.BackColor);
             // Fill knob Background to give knob effect....
-            gOffScreen.FillEllipse(bKnob, rKnob);
+            gOffScreen.FillEllipse(brushKnob, rKnob);
             // Set antialias effect on                     
             gOffScreen.SmoothingMode = SmoothingMode.AntiAlias;
             // Draw border of knob                         
@@ -1110,24 +1116,26 @@ namespace KnobControl
                 SizeF strsize = Gr.MeasureString(str, font);
 
                 // Graduations outside
+                gradLength = 4 * drawRatio;
 
                 if (_drawDivInside)
                 {
                     // Graduations inside : remove only 2*8 pixels
-                    x = y = 8;
+                    //x = y = 8;
+                    x = y = gradLength;
                     w = Width - 2 * x;
                 }
                 else
                 {
                     // remove 2 * size of text and length of graduation
-                    gradLength = 4 * drawRatio;
+                    //gradLength = 4 * drawRatio;
                     int strw = (int)strsize.Width;
                     int strh = (int)strsize.Height;
 
                     int max = Math.Max(strw, strh);
                     x = max;
                     y = max;
-                    w = (int)(Width - 2 * max - gradLength); 
+                    w = (int)(Width - 2 * max - gradLength);                     
                 }
 
                 if (w <= 0)
@@ -1153,11 +1161,13 @@ namespace KnobControl
             // create offscreen graphics                              
             this.gOffScreen = Graphics.FromImage(OffScreenImage);
 
+
+            // Depends on retangle dimensions
             // create LinearGradientBrush for creating knob            
-            bKnob = new LinearGradientBrush(
+            brushKnob = new LinearGradientBrush(
                 rKnob, Utility.GetLightColor(_knobBackColor, 55), Utility.GetDarkColor(_knobBackColor, 55), LinearGradientMode.ForwardDiagonal);
 
-            // create LinearGradientBrush for knobPoint                
+            // create LinearGradientBrush for knobPointer                
             brushKnobPointer = new LinearGradientBrush(
                 rKnob, Utility.GetLightColor(_PointerColor, 55), Utility.GetDarkColor(_PointerColor, 55), LinearGradientMode.ForwardDiagonal);
             
