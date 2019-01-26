@@ -1,9 +1,13 @@
+# Visual Studio 2015/2017 cache/options directory
+.vs/
+
 # Visual Studio files
 *.suo
 *.user
 *.pdb
 _ReSharper.*
 obj/
+Debug/
 Release/
 packages
 
