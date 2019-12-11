@@ -46,7 +46,7 @@ protected override void OnMouseWheel(MouseEventArgs e)
 }
 ```
 
-Properties available:
+#Properties available:
 
 |**Values**                | Signification |
 | ------------ | ------------- |
