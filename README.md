@@ -57,24 +57,24 @@ _maximum (int, 100)       | Gets or sets the upper limit of the range of values
 _LargeChange (int)        | Gets or sets a value to be added to or subtracted to the Value property when the change is made with the mouse.
 _SmallChange (int)        | Gets or sets a value to be added to or subtracted to the Value property when the change is made with the keyboard.
 _mouseWheelBarPartitions  | Sets how many parts are bar divided when using mouse wheel
-                          |
+------------ | -------------
 **Appearance**            | 
 _showLargeScale (bool)    | Displays or hides the main tick marks
 _showSmallScale (bool)    | Displays or hides intermediate tick marks
 KnobPointerStyles (enum)  | Sets the style of the knob pointer: a circle or a line
 _startAngle               | Sets the start angle to display graduations (default 135, min 90)
 _endAngle                 | Sets the end angle to display graduations (default 405, max 450)
-                          |
+------------ | -------------
 **Ticks**                 |
 _scaleDivisions (int)     | Sets the number of intervals between minimum and maximum
 _scaleSubDivisions (int)  | Sets the number of subdivisions between main tick marks.
 _drawDivInside (bool)     | Draws graduation strings inside or outside the knob circle
-                          |                       
+------------ | -------------                      
 **Colors**                |
 _scaleColor (Color)       | Color of the tick marks
 _knobBackColor (Color)    | backcolor of the knob (default LightGray)
 _PointerColor (Color)     | backcolor of the pointer (default SlateBlue)
-                          |
+------------ | -------------
 **Font**                  | 
 _scaleFont (Font)         | Sets the Font (see _scaleFontAutoSize for the size)
 _scaleFontAutoSize (bool) | if true, the font size is calculated automatically, otherwise it is the selected size
